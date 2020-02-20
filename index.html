@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <title>Fun with Filters and Frequencies!</title>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+        src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+<body>
+<h1>Fun with Filters and Frequencies!</h1>
+
+<h2>Finite Difference Operator</h2>
+<table>
+    <tr>
+        <td><img src="images/results/cameraman/fd_x.png"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/fd_y.png"> <br>$D_y$</td>
+    </tr>
+    <tr>
+         <td><img src="images/results/cameraman/fd.png"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/fd_bin.png"> <br>Binarized</td>
+    </tr>
+</table>
+<h2>Derivative of Guassian</h2>
+<p>We first blur the image with a Gaussian kernel, then perform finite difference operator.</p>
+<table>
+    <tr>
+        <td><img src="images/results/cameraman/2conv_x.png"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/2conv_y.png"> <br>$D_y$</td>
+    </tr>
+    <tr>
+         <td><img src="images/results/cameraman/2conv.png"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/2conv_bin.png"> <br>Binarized</td>
+    </tr>
+</table>
+<p> We see that the edges are a lot clearer now, because by removing high frequencies we lessen the likelihood of mistaking small details as edges.</p>
+<h3> In one convolution: </h3>
+<table>
+    <tr>
+        <td><img src="images/results/cameraman/dog_x.png"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/dog_y.png"> <br>$D_y$</td>
+    </tr>
+    <tr>
+         <td><img src="images/results/cameraman/dog.png"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/dog_bin.png"> <br>Binarized</td>
+    </tr>
+</table>
+<p> We can see the result is the same as doing it with two.</p>
+<h2>Image Straightening</h2>
+<h2>Image Sharpening</h2>
+<table>
+    <tr>
+        <td><img src="images/results/sharpen/taj_original.jpg"><br>Original</td>
+        <td><img src="images/results/sharpen/taj.png"><br>Sharpened</td>
+    </tr>
+    <tr>
+        <td><img src="images/smm.png"> <br>Original</td>
+        <td><img src="images/results/sharpen/smm.png"> <br>Sharpened</td>
+    </tr>
+    <tr>
+        <td><img src="images/dutchflat.png" width="100%"> <br>Original</td>
+        <td><img src="images/results/sharpen/dutch_blur.png" width="100%"> <br>Blurred</td>
+        <td><img src="images/results/sharpen/dutch_sharp.png" width="100%"> <br>Re-sharpened</td>
+    </tr>
+</table>
+It might not be visible at this resolution, but the image really did get sharper. However, the higher frequencies, like the leaves on the trees were not able to be recovered. This makes sense as the highest frequencies are the first to be removed, and sharpening works by re-enforcing already existing higher frequencies in the image.
+<h2>Hybrid Images</h2>
+<h2>Gaussian and Laplacian Stacks</h2>
+<h2>Multiresolution Blending</h2>
+</body>
