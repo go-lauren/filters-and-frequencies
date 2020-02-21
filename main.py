@@ -6,7 +6,7 @@ import numpy as np
 from os import path
 from filters import *
 from stacks import *
-from align_image_code import align_images
+from align_image_code import *
 import os
 
 def main():
@@ -53,8 +53,8 @@ def main():
         dutch = sharpen(dutch_blur, 1)
         plt.imsave(file_path + "sharpen/dutch_blur.png", dutch_blur)
         plt.imsave(file_path + "sharpen/dutch_sharp.png", dutch)
-    # straigthen
-    for f in ['groceries.png', 'facade.png', 'sidewalk.png', 'friends.png']:
+    # straighten
+    for f in ['groceries.png', 'facade.png', 'sidewalk.png', 'dog.png', 'pisa.png']:
         if not path.exists(file_path + 'straighten/' + f):
             im = skio.imread("images/" + f)
             gray_im = sk.img_as_float(im)
@@ -62,17 +62,103 @@ def main():
             straighten, _ = auto_straighten(gray_im)
             plt.imsave(file_path + "straighten/" + f, ndimage.rotate(im, straighten))
             print("angle: ", straighten, f)
+    # stack
+    for f in ['lincoln.png', 'flower.png', 'monalisa.png', 'hyb_me.png']:
+        if not path.exists(file_path + 'stacks/' + "gs0" + f):
+            im = skio.imread("images/" + f)
+            im = sk.img_as_float(im)
+            gs, ls = stack(im, 5)
+            for i in range(0, 6):
+                if i==5:
+                    continue
+                for j in range(0, 3):
+                    channel = ls[:, :, j, i]
+                    channel = channel - np.min(channel.ravel())
+                    channel = channel/np.max(channel.ravel())
+                    ls[:, :, j, i] = channel
+            for i in range(0, 6):
+                plt.imsave("images/results/stacks/gs" + str(i) + f, gs[:, :, :, i])
+                plt.imsave("images/results/stacks/ls" + str(i) + f, ls[:, :, :, i])
+    #hybrid
+    if not path.exists(file_path + 'hybrid/' + 'hyb_noggo.png'):
+        im1 = skio.imread("images/nina.png")
+        im2 = skio.imread("images/doggo.png")
+        im1 = sk.img_as_float(im1)
+        im2 = sk.img_as_float(im2)
+        im1 = sk.color.rgb2gray(im1)
+        im2 = sk.color.rgb2gray(im2)
+        lp, hp, hyb = hybrid(im1, im2, 10, 15)
+        plt.imsave("images/results/hybrid/lp_nina.png", lp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/hp_doggo.png', hp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/hyb_noggo.png', hyb, cmap=plt.cm.gray)       
+    if not path.exists(file_path + "hybrid/hyb_me.png"):
+        im2 = skio.imread("images/neutral.png")
+        im1 = skio.imread("images/angry.png")
+        im1 = sk.img_as_float(im1)
+        im2 = sk.img_as_float(im2)
     
+        lp, hp, hyb = hybrid(im1, im2, 5, 10)
+        plt.imsave("images/results/hybrid/lp_me.png", lp)
+        plt.imsave('images/results/hybrid/hp_me.png', hp)
+        plt.imsave('images/results/hybrid/hyb_me.png', hyb)
 
+        im1 = sk.color.rgb2gray(im1)
+        im2 = sk.color.rgb2gray(im2)
+        lp, hp, hyb = hybrid(im1, im2, 5, 10)
+        plt.imsave("images/results/hybrid/gray_lp_me.png", lp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/gray_hp_me.png', hp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/gray_hyb_me.png', hyb, cmap=plt.cm.gray)
+    if not path.exists(file_path + "hybrid/nut.png"):
+        im1 = skio.imread("images/derek_aligned.jpg")
+        im2 = skio.imread("images/nutmeg_aligned.jpg")
+        im1 = sk.img_as_float(im1)
+        im2 = sk.img_as_float(im2)
+        im1 = sk.color.rgb2gray(im1)
+        im2 = sk.color.rgb2gray(im2)
+        lp, hp, hyb = hybrid(im1, im2, 5, 15)
+        plt.imsave("images/results/hybrid/lp_derek.png", lp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/lp_nutmeg.png', hp, cmap=plt.cm.gray)
+        plt.imsave('images/results/hybrid/nut.png', hyb, cmap=plt.cm.gray)
+    if not path.exists(file_path + "blend/orapple.png"):
+        im2 = skio.imread("images/apple.jpeg")
+        im1 = skio.imread("images/orange.jpeg")
+        im1 = sk.img_as_float(im1)
+        im2 = sk.img_as_float(im2)
+        l = im1.shape[1] // 2
+        mask = np.ones((im1.shape[0], im1.shape[1]))
+        mask[:, 0:l] = np.zeros((im1.shape[0], l))
+        sp = spline(im1, im2, mask, 5)
+        r = np.sum(sp[:, :, :, 0], axis=2)
+        g = np.sum(sp[:, :, :, 1], axis=2)
+        b = np.sum(sp[:, :, :, 2], axis=2)
+        final = np.concatenate(
+                    (r.reshape((im1.shape[0], im1.shape[1], 1)),
+                    g.reshape((im1.shape[0], im1.shape[1], 1)),
+                    b.reshape((im1.shape[0], im1.shape[1], 1))
+                ), axis=2)
+        plt.imsave("images/results/blend/orapple.png", final)
+    if not path.exists(file_path + "blend/handeye.png"):
+        im1 = plt.imread("images/eye.jpg")
+        im2 = plt.imread("images/hand.png")
+        im1 = sk.img_as_float(im1)
+        im2 = sk.img_as_float(im2)
+        l = im1.shape[1] // 2
+        mask = skio.imread("images/eyemask.png")
+        mask = sk.img_as_float(mask)
+        mask = sk.color.rgb2gray(mask)
+        sp = spline(im1, im2, mask, 5)
+        r = np.sum(sp[:, :, :, 0], axis=2)
+        g = np.sum(sp[:, :, :, 1], axis=2)
+        b = np.sum(sp[:, :, :, 2], axis=2)
+        final = np.concatenate(
+                    (r.reshape((im1.shape[0], im1.shape[1], 1)),
+                    g.reshape((im1.shape[0], im1.shape[1], 1)),
+                    b.reshape((im1.shape[0], im1.shape[1], 1))
+                ), axis=2)
+        plt.imsave("images/results/blend/handeye.png", final)
 def test():
-    fig, axes = plt.subplots(nrows=1, ncols=3)
-    im = skio.imread("images/smm.png")
-    im = sk.img_as_float(im)
-    im = sharpen(im, 1)
-    plt.imsave("images/results/sharpen/smm.png", im)
-    axes[0].imshow(im)
-    plt.show()
-
+    return
+      
 if __name__ == "__main__":
-    # test()
+    test()
     main()

@@ -52,7 +52,7 @@ def auto_straighten(im):
         if theta == 0:
             continue
         o = gradient_angles(ndimage.rotate(im, theta, reshape=False))
-        o = ndimage.rotate(o, -theta)
+        o = ndimage.rotate(o, -theta, reshape=False)
         o = o[height:o.shape[0]-height, width:o.shape[1]-width]
         temp = ((0.0 <= o) & (o <= 0.02)).sum() + ((np.pi/2-0.02 <= o) & (o <= np.pi/2)).sum() 
         # print(temp, (o != -1).sum())
@@ -77,6 +77,26 @@ def sharpen(im, scalar):
     # return (1 + 1 - kernel)
 
 def hybrid(im1, im2, sig1, sig2):
+    if len(im1.shape) == 3:
+        r_l, r_h, r_hyb = hybrid(im1[:, :, 0], im2[:, :, 0], sig1, sig2)
+        g_l, g_h, g_hyb  = hybrid(im1[:, :, 1], im2[:, :, 1], sig1, sig2)
+        b_l, b_h, b_hyb = hybrid(im1[:, :, 2], im2[:, :, 2], sig1, sig2)
+        low_pass = np.concatenate((
+            r_l.reshape((im1.shape[0], im2.shape[1], 1)),
+            g_l.reshape((im1.shape[0], im2.shape[1], 1)),
+            b_l.reshape((im1.shape[0], im2.shape[1], 1))
+        ), axis = 2)
+        high_pass = np.concatenate((
+            r_h.reshape((im1.shape[0], im2.shape[1], 1)),
+            g_h.reshape((im1.shape[0], im2.shape[1], 1)),
+            b_h.reshape((im1.shape[0], im2.shape[1], 1))
+        ), axis = 2)
+        hyb = np.concatenate((
+            r_hyb.reshape((im1.shape[0], im2.shape[1], 1)),
+            g_hyb.reshape((im1.shape[0], im2.shape[1], 1)),
+            b_hyb.reshape((im1.shape[0], im2.shape[1], 1))
+        ), axis = 2)
+        return low_pass, high_pass, hyb
     lp_k = cv2.getGaussianKernel(np.floor(sig1*6-1).astype(np.int), sig1)
     lp_k = np.outer(lp_k, lp_k)
     low_pass = ndimage.convolve(im1, lp_k)

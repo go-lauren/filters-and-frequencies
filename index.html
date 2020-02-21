@@ -12,46 +12,99 @@
 <h1>Fun with Filters and Frequencies!</h1>
 
 <h2>Finite Difference Operator</h2>
+<p> Here, we attempt to detect edges by using the gradient magnitude of the image. We estimate the gradient magnitude by computing partial derivatives with the finite difference filters in a  convolution:
+$$D_x = \begin{bmatrix} 1 & -1 \end{bmatrix} D_y = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$$
+Then, we calculate gradient magnitude by
+$g = \sqrt{d_x^2 + d_y^2}$ for every pixel.
+</p>
 <table>
     <tr>
-        <td><img src="images/results/cameraman/fd_x.png"> <br>$D_x$</td>
-        <td><img src="images/results/cameraman/fd_y.png"> <br>$D_y$</td>
-    </tr>
-    <tr>
-         <td><img src="images/results/cameraman/fd.png"> <br>Gradient magnitude</td>
-        <td><img src="images/results/cameraman/fd_bin.png"> <br>Binarized</td>
+        <td><img src="images/results/cameraman/fd_x.png" width="100%"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/fd_y.png" width="100%"> <br>$D_y$</td>
+         <td><img src="images/results/cameraman/fd.png" width="100%"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/fd_bin.png" width="100%"> <br>Binarized (>0.22)</td>
     </tr>
 </table>
 <h2>Derivative of Guassian</h2>
 <p>We first blur the image with a Gaussian kernel, then perform finite difference operator.</p>
 <table>
     <tr>
-        <td><img src="images/results/cameraman/2conv_x.png"> <br>$D_x$</td>
-        <td><img src="images/results/cameraman/2conv_y.png"> <br>$D_y$</td>
-    </tr>
-    <tr>
-         <td><img src="images/results/cameraman/2conv.png"> <br>Gradient magnitude</td>
-        <td><img src="images/results/cameraman/2conv_bin.png"> <br>Binarized</td>
+        <td><img src="images/results/cameraman/2conv_x.png" width="100%"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/2conv_y.png" width="100%"> <br>$D_y$</td>
+         <td><img src="images/results/cameraman/2conv.png" width="100%"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/2conv_bin.png" width="100%"> <br>Binarized</td>
     </tr>
 </table>
 <p> We see that the edges are a lot clearer now, because by removing high frequencies we lessen the likelihood of mistaking small details as edges.</p>
-<h3> In one convolution: </h3>
+<h3>In one convolution:</h3>
+<p>We can also convolve the Gaussian and finite difference filters together and perform only one convolution.</p>
 <table>
     <tr>
-        <td><img src="images/results/cameraman/dog_x.png"> <br>$D_x$</td>
-        <td><img src="images/results/cameraman/dog_y.png"> <br>$D_y$</td>
-    </tr>
-    <tr>
-         <td><img src="images/results/cameraman/dog.png"> <br>Gradient magnitude</td>
-        <td><img src="images/results/cameraman/dog_bin.png"> <br>Binarized</td>
+        <td><img src="images/results/cameraman/dog_x.png" width="100%"> <br>$D_x$</td>
+        <td><img src="images/results/cameraman/dog_y.png" width="100%"> <br>$D_y$</td>
+         <td><img src="images/results/cameraman/dog.png" width="100%"> <br>Gradient magnitude</td>
+        <td><img src="images/results/cameraman/dog_bin.png" width="100%"> <br>Binarized</td>
     </tr>
 </table>
 <p> We can see the result is the same as doing it with two.</p>
 <h2>Image Straightening</h2>
-<h2>Image Sharpening</h2>
+<p> We attempted to straighten images by computing the orientation of the gradient for pixels that we classify as edges, then we try to  rotate image at angles between $-30^\circ$ and $30^\circ$ that the maximum number of angles are either horizontal ($0^\circ$) or vertical $(90^\circ)$.
+</p>
 <table>
     <tr>
-        <td><img src="images/results/sharpen/taj_original.jpg"><br>Original</td>
+        <td><img src="images/facade.png" width="100%"> <br>original</td>
+         <td><img src="images/results/straighten/facade.png" width="100%"> <br>rotated by $-4^\circ$</td>
+        <td><img src="images/results/straighten/hist_facade.png" width="100%"> <br></td>
+    </tr>
+    <tr>
+        <td><img src="images/groceries.png" width="100%"> <br>original</td>
+         <td><img src="images/results/straighten/groceries.png" width="100%"> <br>rotated by $12^\circ$</td>
+        <td><img src="images/results/straighten/hist_groceries.png" width="500px"> <br></td>
+    </tr>
+    <tr>
+        <td><img src="images/sidewalk.png" width="100%"> <br>original</td>
+         <td><img src="images/results/straighten/sidewalk.png" width="100%"> <br>rotated by $18^\circ$</td>
+        <td><img src="images/results/straighten/hist_sidewalk.png" width="100%"> <br></td>
+    </tr>
+    <tr>
+        <td><img src="images/pisa.png" width="100%"> <br>original</td>
+         <td><img src="images/results/straighten/pisa.png" width="100%"> <br>rotated by $5^\circ$</td>
+        <td><img src="images/results/straighten/hist_pisa.png" width="100%"> <br></td>
+    </tr>
+    <tr>
+    <td>Arguably a failure since the image is straight to begin with, but technically Pisa is no longer leaning, so I think it's a success.</td>
+    </tr>
+    <tr>
+        <td><img src="images/dog.png" width="100%"> <br>original</td>
+        <td><img src="images/results/straighten/dog.png" width="100%">      <br>rotated by $-7^\circ$</td>
+        <td><img src="images/results/straighten/hist_dog.png"  width="100%"> <br></td>
+    </tr>
+    <tr>
+    <td>This straightening is a failure. I think the reason it failed is because of the stripes on the dog's shirt which are naturally slanted. </td>
+    </tr>
+</table>
+<h2>Image Sharpening</h2>
+<p>
+    Our kernel for image sharpening is 
+    $$\begin{bmatrix}
+        0 & 0 & \dots &  & \\
+        \vdots & \ddots & & & \vdots \\
+        &  & 1 & \\
+         & &  &\\
+        0 & & & & 0\\
+    \end{bmatrix}
+    + \alpha \left(\begin{bmatrix}
+        0 & 0 & \dots &  & \\
+        \vdots & \ddots & & & \vdots \\
+        &  & 1 & \\
+         & &  &\\
+        0 & & & & 0\\
+    \end{bmatrix} - G \right)$$
+    where $G$ is a Gaussian kernel with standard deviation $\sigma$ and kernel size $6 \sigma -1$.
+</p>
+<table>
+    <tr>
+        <td><img src="images/taj.png"><br>Original</td>
         <td><img src="images/results/sharpen/taj.png"><br>Sharpened</td>
     </tr>
     <tr>
@@ -64,8 +117,158 @@
         <td><img src="images/results/sharpen/dutch_sharp.png" width="100%"> <br>Re-sharpened</td>
     </tr>
 </table>
-It might not be visible at this resolution, but the image really did get sharper. However, the higher frequencies, like the leaves on the trees were not able to be recovered. This makes sense as the highest frequencies are the first to be removed, and sharpening works by re-enforcing already existing higher frequencies in the image.
+<p>
+    It might not be visible unless you zoom in, but this image really did get sharper. However, the higher frequencies, like the leaves on the trees were not able to be recovered. This makes sense as the highest frequencies are the first to be removed, and sharpening works by re-enforcing already existing higher frequencies in the image.
+</p>
 <h2>Hybrid Images</h2>
+<p>
+    We created these images by running a low pass filter on one image, running a high pass filter on the other, then superimposing them. In theory, at close distances we should see the high pass image, and at large distances we should see the low pass one more clearly.
+</p>
+<p>
+    This first one is my favorite result, and includes the frequency analysis.
+</p>
+<table>
+    <tr>
+        <td><img src="images/results/hybrid/gray_lp_me.png" width="100%"></td>
+        <td><img src="images/results/hybrid/gray_hp_me.png" width="100%"></td>
+        <td><img src="images/results/hybrid/gray_hyb_me.png" width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/results/hybrid/frequency_analysis.png" width="500px">
+    </tr>
+</table>
+<table>
+    <tr>
+        <td><img src="images/results/hybrid/lp_derek.png" width="100%"></td>
+        <td><img src="images/results/hybrid/lp_nutmeg.png" width="100%"></td>
+        <td><img src="images/results/hybrid/nut.png" width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/results/hybrid/lp_gauplace.png" width="100%"> <br> Gauss</td>
+        <td><img src="images/results/hybrid/hp_gauplace.png" width="100%"> <br> Laplace</td>
+        <td><img src="images/results/hybrid/hyb_gauplace.png" width="100%"></td>
+    </tr>
+</table>
+<p>The Gauss Laplace combo was a bit of a  failure because even from far away it still looks like Laplace. I think this is because the original Laplace image is a drawing, which is mostly composed of lines, so even far away, Laplace's features are more emphasized.</p>
+
+<p>I also did a color version of the emotion-warped girl. This one worked well because it was the same person twice.</p>
+<table>
+    <tr>
+        <td><img src="images/results/hybrid/lp_me.png" width="100%"></td>
+        <td><img src="images/results/hybrid/hp_me.png" width="100%"></td>
+        <td><img src="images/results/hybrid/hyb_me.png" width="100%"></td>
+    </tr>
+    <tr>
+
+    </tr>
+</table>
 <h2>Gaussian and Laplacian Stacks</h2>
+<p>
+    Here, we implemented Gaussian and Laplacian stacks for various images, including the Lincoln painting that encodes different pictures at different frequencies. The Laplacian stack has been normalized for visualization purposes.
+</p>
+<table>
+    <tr>
+        <td><img src="images/results/stacks/gs0lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs1lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs2lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs3lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs4lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs5lincoln.png" width="100%"></td>
+    </tr>
+    <tr>
+    <td>
+        <img src="images/results/stacks/ls0lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/ls1lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls2lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls3lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls4lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls5lincoln.png"width="100%"></td>
+    </tr>
+     <tr>
+        <td><img src="images/results/stacks/gs0flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs1flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs2flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs3flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs4flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs5flower.png" width="100%"></td>
+    </tr>
+    <tr>
+    <td>
+        <img src="images/results/stacks/ls0flower.png" width="100%"></td>
+        <td><img src="images/results/stacks/ls1flower.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls2flower.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls3flower.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls4flower.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls5flower.png"width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/results/stacks/gs0lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs1lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs2lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs3lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs4lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs5lincoln.png" width="100%"></td>
+    </tr>
+    <tr>
+    <td>
+        <img src="images/results/stacks/ls0lincoln.png" width="100%"></td>
+        <td><img src="images/results/stacks/ls1lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls2lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls3lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls4lincoln.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls5lincoln.png"width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/results/stacks/gs0hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs1hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs2hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs3hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs4hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/gs5hyb_me.png" width="100%"></td>
+    </tr>
+    <tr>
+    <td>
+        <img src="images/results/stacks/ls0hyb_me.png" width="100%"></td>
+        <td><img src="images/results/stacks/ls1hyb_me.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls2hyb_me.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls3hyb_me.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls4hyb_me.png"width="100%"></td>
+        <td><img src="images/results/stacks/ls5hyb_me.png"width="100%"></td>
+    </tr>
+</table>
+<p>
+    We've included the hybrid images from the previous section as part of a stack example. As you can see, the underlying low pass image becomes a lot clearer as we go down the stack, vice versa for the overlaid high pass image.
+</p>
 <h2>Multiresolution Blending</h2>
+<p>
+    Here we attempt to blend two images together seamlessly, by blending images via a mask at multiple levels of frequency resolution. 
+</p>
+<table>
+<tr>
+    <td> Destination </td>
+    <td> Source </td>
+    <td> Mask </td>
+    <td> Result </td>
+</tr>
+<tr>
+    <td><img src="images/orange.jpeg" width="100%"></td>
+        <td><img src="images/apple.jpeg" width="100%"></td>
+        <td><img src="images/orapplemask.png" width="100%"></td>
+        <td><img src="images/results/blend/orapple.png" width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/hand.png" width="100%"></td>
+        <td><img src="images/eye.jpg" width="100%"></td>
+        <td><img src="images/eyemask.png" width="100%"></td>
+        <td><img src="images/results/blend/handeye.png" width="100%"></td>
+    </tr>
+    <tr>
+        <td><img src="images/summer.png" width="100%"></td>
+        <td><img src="images/autumn.png" width="100%"></td>
+        <td><img src="images/treemask.jpg" width="100%"></td>
+        <td><img src="images/results/blend/tree.png" width="100%"></td>
+    </tr>
+</table>
+<h2>Conclusion</h2>
+This assignment was very cool. My favorite part was the multiresolution blending, because I got to be a little more creative, and I also learned how the Photoshop blending tool works a little better now. I think a cool extension would be translating the mask so that the images don't have to be directly superimposed on top of each other to work.
 </body>
