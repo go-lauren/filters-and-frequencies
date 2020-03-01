@@ -2,6 +2,7 @@ from scipy import ndimage
 import numpy as np
 import cv2
 
+#  Produces Gaussian and Laplacian Stacks
 def stack(im, n):
     if len(im.shape) == 3:
         r_g, r_l = stack(im[:, :, 0], n)

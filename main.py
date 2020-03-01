@@ -157,6 +157,23 @@ def main():
                 ), axis=2)
         plt.imsave("images/results/blend/handeye.png", final)
 def test():
+    im1 = sk.color.rgb2gray(sk.img_as_float(skio.imread("images/angry.png")))
+    im2 = sk.color.rgb2gray(sk.img_as_float(skio.imread("images/neutral.png")))
+    lp = sk.color.rgb2gray(sk.img_as_float(skio.imread("images/results/hybrid/lp_me.png")))
+    hp = sk.color.rgb2gray(sk.img_as_float(skio.imread("images/results/hybrid/hp_me.png")))
+    hyb = sk.color.rgb2gray(sk.img_as_float(skio.imread("images/results/hybrid/hyb_me.png")))
+    fig, axes = plt.subplots(nrows=1, ncols=5)
+    axes[0].imshow(np.log(np.abs(np.fft.fftshift(np.fft.fft2(im1)))))
+    axes[1].imshow(np.log(np.abs(np.fft.fftshift(np.fft.fft2(im2)))))
+    axes[2].imshow(np.log(np.abs(np.fft.fftshift(np.fft.fft2(lp)))))
+    axes[3].imshow(np.log(np.abs(np.fft.fftshift(np.fft.fft2(hp)))))
+    axes[4].imshow(np.log(np.abs(np.fft.fftshift(np.fft.fft2(hyb)))))
+    axes[0].set_title("low pass, before filtering")
+    axes[1].set_title("high pass, before filtering")
+    axes[2].set_title("low pass, after filtering")
+    axes[3].set_title("low pass, after filtering")
+    axes[4].set_title("hybrid")
+    plt.show()
     return
       
 if __name__ == "__main__":

@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>Fun with Filters and Frequencies!</h1>
-
+<p>Note: largest images have been placed with URLs, so need internet to view</p>
 <h2>Finite Difference Operator</h2>
 <p> Here, we attempt to detect edges by using the gradient magnitude of the image. We estimate the gradient magnitude by computing partial derivatives with the finite difference filters in a  convolution:
 $$D_x = \begin{bmatrix} 1 & -1 \end{bmatrix} D_y = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$$
@@ -52,18 +52,18 @@ $g = \sqrt{d_x^2 + d_y^2}$ for every pixel.
 </p>
 <table>
     <tr>
-        <td><img src="images/facade.png" width="100%"> <br>original</td>
-         <td><img src="images/results/straighten/facade.png" width="100%"> <br>rotated by $-4^\circ$</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/facade.png?raw=true" width="100%"> <br>original</td>
+         <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/results/straighten/facade.png?raw=true" width="100%"> <br>rotated by $-4^\circ$</td>
         <td><img src="images/results/straighten/hist_facade.png" width="100%"> <br></td>
     </tr>
     <tr>
-        <td><img src="images/groceries.png" width="100%"> <br>original</td>
-         <td><img src="images/results/straighten/groceries.png" width="100%"> <br>rotated by $12^\circ$</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/groceries.png?raw=true" width="100%"> <br>original</td>
+         <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/results/straighten/groceries.png?raw=true" width="100%"> <br>rotated by $12^\circ$</td>
         <td><img src="images/results/straighten/hist_groceries.png" width="500px"> <br></td>
     </tr>
     <tr>
-        <td><img src="images/sidewalk.png" width="100%"> <br>original</td>
-         <td><img src="images/results/straighten/sidewalk.png" width="100%"> <br>rotated by $18^\circ$</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/sidewalk.png?raw=true" width="100%"> <br>original</td>
+         <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/results/straighten/sidewalk.png?raw=true" width="100%"> <br>rotated by $18^\circ$</td>
         <td><img src="images/results/straighten/hist_sidewalk.png" width="100%"> <br></td>
     </tr>
     <tr>
@@ -112,9 +112,9 @@ $g = \sqrt{d_x^2 + d_y^2}$ for every pixel.
         <td><img src="images/results/sharpen/smm.png"> <br>Sharpened</td>
     </tr>
     <tr>
-        <td><img src="images/dutchflat.png" width="100%"> <br>Original</td>
-        <td><img src="images/results/sharpen/dutch_blur.png" width="100%"> <br>Blurred</td>
-        <td><img src="images/results/sharpen/dutch_sharp.png" width="100%"> <br>Re-sharpened</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/dutchflat.png?raw=true" width="100%"> <br>Original</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/results/sharpen/dutch_blur.png?raw=true" width="100%"> <br>Blurred</td>
+        <td><img src="https://github.com/go-lauren/filters-and-frequencies/blob/master/images/results/sharpen/dutch_sharp.png?raw=true" width="100%"> <br>Re-sharpened</td>
     </tr>
 </table>
 <p>
@@ -125,18 +125,18 @@ $g = \sqrt{d_x^2 + d_y^2}$ for every pixel.
     We created these images by running a low pass filter on one image, running a high pass filter on the other, then superimposing them. In theory, at close distances we should see the high pass image, and at large distances we should see the low pass one more clearly.
 </p>
 <p>
-    This first one is my favorite result, and includes the frequency analysis.
+    This first one is my favorite result, and includes the frequency analysis. As we can see, the low pass and high pass clearly have certain frequencies removed, but the hybrid image has a more normal distribution again.
 </p>
 <table>
     <tr>
+        <td><img src="images/angry.png" width="100%"></td>
+        <td><img src="images/neutral.png" width="100%"></td>
         <td><img src="images/results/hybrid/gray_lp_me.png" width="100%"></td>
         <td><img src="images/results/hybrid/gray_hp_me.png" width="100%"></td>
         <td><img src="images/results/hybrid/gray_hyb_me.png" width="100%"></td>
     </tr>
-    <tr>
-        <td><img src="images/results/hybrid/frequency_analysis.png" width="500px">
-    </tr>
 </table>
+<img src="images/results/hybrid/frequency_analysis.png" width="800px">
 <table>
     <tr>
         <td><img src="images/results/hybrid/lp_derek.png" width="100%"></td>
@@ -183,23 +183,6 @@ $g = \sqrt{d_x^2 + d_y^2}$ for every pixel.
         <td><img src="images/results/stacks/ls3lincoln.png"width="100%"></td>
         <td><img src="images/results/stacks/ls4lincoln.png"width="100%"></td>
         <td><img src="images/results/stacks/ls5lincoln.png"width="100%"></td>
-    </tr>
-     <tr>
-        <td><img src="images/results/stacks/gs0flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/gs1flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/gs2flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/gs3flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/gs4flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/gs5flower.png" width="100%"></td>
-    </tr>
-    <tr>
-    <td>
-        <img src="images/results/stacks/ls0flower.png" width="100%"></td>
-        <td><img src="images/results/stacks/ls1flower.png"width="100%"></td>
-        <td><img src="images/results/stacks/ls2flower.png"width="100%"></td>
-        <td><img src="images/results/stacks/ls3flower.png"width="100%"></td>
-        <td><img src="images/results/stacks/ls4flower.png"width="100%"></td>
-        <td><img src="images/results/stacks/ls5flower.png"width="100%"></td>
     </tr>
     <tr>
         <td><img src="images/results/stacks/gs0lincoln.png" width="100%"></td>
